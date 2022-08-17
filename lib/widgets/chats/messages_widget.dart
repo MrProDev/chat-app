@@ -2,6 +2,7 @@ import 'package:boss_chat/widgets/chats/message_bubble_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class MessagesWidget extends StatelessWidget {
   const MessagesWidget({Key? key}) : super(key: key);
@@ -11,7 +12,7 @@ class MessagesWidget extends StatelessWidget {
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
           .collection('chats')
-          .orderBy('sentAt')
+          .orderBy('sentAt', descending: true)
           .snapshots(),
       builder: (context, snapshot) {
         final chats = snapshot.data?.docs;
@@ -26,14 +27,19 @@ class MessagesWidget extends StatelessWidget {
             ),
           );
         } else {
-          return ListView.builder(
-            itemCount: chats?.length,
-            itemBuilder: (context, index) => MessageBubbleWidget(
-              message: chats?[index]['text'],
-
-              isMe: chats?[index]['uid'] == FirebaseAuth.instance.currentUser!.uid,
-              uid: chats?[index]['uid'],
-              username: chats?[index]['username'],
+          return Scrollbar(
+            thumbVisibility: true,
+            child: ListView.builder(
+              reverse: true,
+              itemCount: chats?.length,
+              itemBuilder: (context, index) => MessageBubbleWidget(
+                message: chats?[index]['text'],
+                isMe: chats?[index]['uid'] ==
+                    FirebaseAuth.instance.currentUser!.uid,
+                uid: chats?[index]['uid'],
+                username: chats?[index]['username'],
+                imageUrl: chats?[index]['imageUrl'],
+              ),
             ),
           );
         }

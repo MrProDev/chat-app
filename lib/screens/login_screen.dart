@@ -42,6 +42,9 @@ class _LoginScreenState extends State<LoginScreen> {
               margin: const EdgeInsets.all(12),
               children: [
                 CupertinoTextFormFieldRow(
+                  autocorrect: false,
+                  textCapitalization: TextCapitalization.none,
+                  enableSuggestions: false,
                   keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.next,
                   prefix: const Icon(CupertinoIcons.mail),

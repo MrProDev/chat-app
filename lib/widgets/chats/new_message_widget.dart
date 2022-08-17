@@ -16,30 +16,43 @@ class _NewMessageWidgetState extends State<NewMessageWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(top: 150),
-      padding: const EdgeInsets.all(8),
-      child: Row(
-        children: [
-          Expanded(
-            child: CupertinoTextField(
-              textInputAction: TextInputAction.newline,
-              keyboardType: TextInputType.multiline,
-              maxLines: null,
-              controller: _messageController,
-              onChanged: (message) {
-                setState(() {
-                  _message = message;
-                });
-              },
+    return ConstrainedBox(
+      constraints: const BoxConstraints(
+        minHeight: 90,
+        maxHeight: 150,
+      ),
+      child: Container(
+        padding: const EdgeInsets.only(
+          left: 16,
+          right: 8,
+          bottom: 16,
+        ),
+        width: double.infinity,
+        child: Row(
+          children: [
+            Expanded(
+              child: CupertinoTextField(
+                autocorrect: true,
+                enableSuggestions: true,
+                textCapitalization: TextCapitalization.sentences,
+                textInputAction: TextInputAction.newline,
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
+                controller: _messageController,
+                onChanged: (message) {
+                  setState(() {
+                    _message = message;
+                  });
+                },
+              ),
             ),
-          ),
-          CupertinoButton(
-            padding: EdgeInsets.zero,
-            onPressed: _message.trim().isEmpty ? null : _sendMessage,
-            child: const Icon(Icons.send_rounded),
-          ),
-        ],
+            CupertinoButton(
+              padding: EdgeInsets.zero,
+              onPressed: _message.trim().isEmpty ? null : _sendMessage,
+              child: const Icon(Icons.send_rounded),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -55,6 +68,7 @@ class _NewMessageWidgetState extends State<NewMessageWidget> {
       'sentAt': Timestamp.now(),
       'uid': user.uid,
       'username': userData['username'],
+      'imageUrl': userData['imageUrl']
     });
     _messageController.clear();
   }

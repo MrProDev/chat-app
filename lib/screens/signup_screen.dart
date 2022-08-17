@@ -37,7 +37,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     try {
       final image = await ImagePicker().pickImage(
         source: source,
-        imageQuality: 50,
+        imageQuality: 25,
         maxWidth: 150,
         maxHeight: 150,
       );
@@ -113,6 +113,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 margin: const EdgeInsets.all(12),
                 children: [
                   CupertinoTextFormFieldRow(
+                    autocorrect: true,
+                    textCapitalization: TextCapitalization.words,
+                    enableSuggestions: false,
                     textInputAction: TextInputAction.next,
                     prefix: const Icon(CupertinoIcons.profile_circled),
                     placeholder: 'Username',
@@ -127,6 +130,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     },
                   ),
                   CupertinoTextFormFieldRow(
+                    autocorrect: false,
+                    textCapitalization: TextCapitalization.none,
+                    enableSuggestions: false,
                     keyboardType: TextInputType.emailAddress,
                     textInputAction: TextInputAction.next,
                     prefix: const Icon(CupertinoIcons.mail),

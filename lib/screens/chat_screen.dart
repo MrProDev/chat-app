@@ -16,35 +16,29 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-      child: NestedScrollView(
-          headerSliverBuilder: (context, innerBoxIsScrolled) => [
-                CupertinoSliverNavigationBar(
-                  padding: EdgeInsetsDirectional.zero,
-                  leading: CupertinoButton(
-                    padding: EdgeInsets.zero,
-                    child: const Icon(
-                      Icons.logout,
-                      color: CupertinoColors.systemRed,
-                    ),
-                    onPressed: () async {
-                      final loginAuthApi =
-                          Provider.of<LoginAuthApi>(context, listen: false);
-                      loginAuthApi.signOut();
-                    },
-                  ),
-                  largeTitle: const Text('Chats'),
-                ),
-              ],
-          body: Column(
-            children: const [
-              Expanded(
-                child: MessagesWidget(),
-              ),
-              Expanded(
-                child: NewMessageWidget(),
-              ),
-            ],
-          )),
+      navigationBar: CupertinoNavigationBar(
+        middle: const Text('Chat'),
+        leading: CupertinoButton(
+          padding: EdgeInsets.zero,
+          child: const Icon(
+            Icons.logout,
+            color: CupertinoColors.systemRed,
+          ),
+          onPressed: () async {
+            final loginAuthApi =
+                Provider.of<LoginAuthApi>(context, listen: false);
+            loginAuthApi.signOut();
+          },
+        ),
+      ),
+      child: Column(
+        children: const [
+          Expanded(
+            child: MessagesWidget(),
+          ),
+          NewMessageWidget(),
+        ],
+      ),
     );
   }
 }
