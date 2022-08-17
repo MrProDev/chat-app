@@ -36,7 +36,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Future pickImage(ImageSource source) async {
     try {
       final image = await ImagePicker().pickImage(source: source);
-      if (image == null) return;
+      if (image == null) {
+        _showAlertDialog('Please choose your profile picture');
+        return;
+      }
 
       final tempImageFile = File(image.path);
       setState(() {
@@ -56,13 +59,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                margin: const EdgeInsets.only(left: 12, bottom: 12),
-                child: SvgPicture.asset(
-                  'assets/svg/icon.svg',
-                  width: 256,
-                  height: 256,
-                ),
+              SvgPicture.asset(
+                'assets/svg/icon.svg',
+                width: 256,
+                height: 256,
               ),
               Stack(
                 children: [
