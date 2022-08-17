@@ -4,11 +4,13 @@ class UserCredentials {
   String? username;
   String? email;
   String? uid;
+  String? imageUrl;
 
   UserCredentials({
     required this.username,
     required this.email,
     required this.uid,
+    required this.imageUrl,
   });
 
   Map<String, dynamic> toMap() {
@@ -16,6 +18,7 @@ class UserCredentials {
       'username': username,
       'email': email,
       'uid': uid,
+      'imageUrl': imageUrl,
     };
   }
 
@@ -24,6 +27,7 @@ class UserCredentials {
       username: map['username'] as String,
       email: map['email'] as String,
       uid: map['uid'] as String,
+      imageUrl: map['imageUrl'] as String,
     );
   }
 

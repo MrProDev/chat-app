@@ -35,7 +35,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   Future pickImage(ImageSource source) async {
     try {
-      final image = await ImagePicker().pickImage(source: source);
+      final image = await ImagePicker().pickImage(
+        source: source,
+        imageQuality: 50,
+        maxWidth: 150,
+        maxHeight: 150,
+      );
       if (image == null) {
         _showAlertDialog('Please choose your profile picture');
         return;
@@ -183,9 +188,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final isValid = _formKey.currentState!.validate();
     final signUpAuthApi = Provider.of<SignUpAuthApi>(context, listen: false);
 
-    if (isValid) {
+    if (isValid && image != null) {
       FocusManager.instance.primaryFocus?.unfocus();
       _formKey.currentState!.save();
+    } else if (image == null) {
+      _showAlertDialog('Please choose your profile picture');
+      return;
     } else {
       return;
     }
@@ -204,9 +212,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
       });
       return;
     } else {
+      final imageUrl = await signUpAuthApi.uploadProfilePicture(image: image!);
+
       await signUpAuthApi.createUser(
         username: _username!,
         user: user,
+        imageUrl: imageUrl!,
       );
     }
 
